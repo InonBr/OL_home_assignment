@@ -3,7 +3,7 @@ const router = new express.Router();
 const { check, validationResult } = require('express-validator');
 const oktaClient = require('../lib/oktaClient');
 
-router.post('/register', (req, res, next) => {
+router.post('/register', (req, res) => {
   if (!req.body) return res.sendStatus(400);
   const newUser = {
     profile: {
@@ -18,8 +18,6 @@ router.post('/register', (req, res, next) => {
       },
     },
   };
-
-  console.log(newUser);
 
   oktaClient
     .createUser(newUser)
