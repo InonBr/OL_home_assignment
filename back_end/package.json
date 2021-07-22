@@ -1,0 +1,10 @@
+{
+  "name": "OL_back_end",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "Inon Bercu",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
