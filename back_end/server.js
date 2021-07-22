@@ -1,9 +1,17 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
+const users_routers = require('./routers/users_routers');
+
 const port = 5000;
 
+app.use(cors());
+app.use(express.json());
+
+app.use('/api', users_routers);
+
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('home page');
 });
 
 app.listen(port, () => {
