@@ -4,12 +4,64 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Profile from './Profile';
 import Home from './Home';
+import ModalComponent from './ModalComponent';
 
 const Nevbar = () => {
   const [showlogout, setShowlogout] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [modalForm, setModalForm] = useState('');
+
+  const closeModal = () => {
+    setShowModal(false);
+    setModalForm('');
+  };
+
+  const loginClick = () => {
+    setShowModal(true);
+    setModalForm('login');
+  };
+
+  const registerClick = () => {
+    setShowModal(true);
+    setModalForm('register');
+  };
+
+  const registerAndLoginButtons = () => {
+    return (
+      <>
+        <Form>
+          <Button
+            className='m-1'
+            variant='outline-info'
+            onClick={() => {
+              loginClick();
+            }}
+          >
+            Login
+          </Button>
+        </Form>
+
+        <Form>
+          <Button
+            className='m-1'
+            variant='outline-info'
+            onClick={() => {
+              registerClick();
+            }}
+          >
+            Join Us!
+          </Button>
+        </Form>
+      </>
+    );
+  };
 
   const logoutButton = () => {
-    return <Button variant='outline-info'>logout</Button>;
+    return (
+      <Button className='m-1' variant='outline-info'>
+        logout
+      </Button>
+    );
   };
 
   return (
@@ -26,8 +78,10 @@ const Nevbar = () => {
                 Profile
               </Nav.Link>
             </Nav>
+
             <Nav>
-              <Form inline>{logoutButton()}</Form>
+              {registerAndLoginButtons()}
+              <Form>{logoutButton()}</Form>
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -44,6 +98,12 @@ const Nevbar = () => {
           </Route>
         </Switch>
       </Router>
+
+      <ModalComponent
+        showModal={showModal}
+        modalForm={modalForm}
+        closeFunc={closeModal}
+      />
     </>
   );
 };
