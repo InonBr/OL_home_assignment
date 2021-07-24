@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.use('/api', users_routers);
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
   res.send('home page');
 });
 
