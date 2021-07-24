@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { Navbar, Nav, Form, Button, Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { SecureRoute } from '@okta/okta-react';
+import { oktaSignInConfig } from '../../app.config';
 
 import Profile from './Profile';
 import Home from './Home';
+import Login from './Login';
 import ModalComponent from './ModalComponent';
 
 const Nevbar = () => {
@@ -18,8 +20,7 @@ const Nevbar = () => {
   };
 
   const loginClick = () => {
-    setShowModal(true);
-    setModalForm('login');
+    window.location = '/login';
   };
 
   const registerClick = () => {
@@ -93,6 +94,11 @@ const Nevbar = () => {
           <SecureRoute path='/profile'>
             <Profile />
           </SecureRoute>
+
+          <Route
+            path='/login'
+            render={() => <Login config={oktaSignInConfig} />}
+          />
 
           <Route path='/'>
             <Home />
