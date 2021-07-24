@@ -9,7 +9,6 @@ const ModalComponent = (props) => {
   useEffect(() => {
     headText();
   });
-
   const headText = () => {
     if (props.modalForm === 'login') {
       setHeadMessage('Wlecome back!');
@@ -20,7 +19,7 @@ const ModalComponent = (props) => {
 
   return (
     <Modal show={props.showModal} onHide={props.closeFunc}>
-      <Modal.Header>
+      <Modal.Header closeButton>
         <Modal.Title>{headMessage}</Modal.Title>
       </Modal.Header>
 

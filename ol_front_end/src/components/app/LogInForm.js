@@ -15,7 +15,6 @@ const LoginForm = (props) => {
   const onSubmit = (data) => {
     console.log(data);
     setShowError(true);
-    console.log('LoginForm was submitted');
     // loginApi(data)
     //   .then((response) => {
     //     cookies.set('userToken', response.data.token);

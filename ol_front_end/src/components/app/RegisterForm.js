@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Form } from 'react-bootstrap';
+import { registerApi } from '../../lib/api';
 import '../styles/forms.css';
 
 const RegisterForm = (props) => {
@@ -20,20 +21,19 @@ const RegisterForm = (props) => {
 
   const onSubmit = (data) => {
     console.log(data);
-    setShowError(true);
-    console.log('LoginForm was submitted');
-    // registerApi(data)
-    //   .then((response) => {
-    //     cookies.set('userToken', response.data.token);
-    //     props.closeModal();
-    //   })
-    //   .catch((error) => {
-    //     console.log(data);
-    //     const errorMessage = error.response.data.message;
-    //     if (errorMessage.includes('duplicate')) {
-    //       setShowError(true);
-    //     }
-    //   });
+    registerApi(data)
+      .then((response) => {
+        console.log(response);
+        // cookies.set('userToken', response.data.token);
+        // props.closeModal();
+      })
+      .catch((error) => {
+        console.log(data);
+        // const errorMessage = error.response.data.message;
+        // if (errorMessage.includes('duplicate')) {
+        //   setShowError(true);
+        // }
+      });
   };
 
   const errMessageToShow = () => {
