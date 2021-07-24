@@ -9,6 +9,7 @@ const ModalComponent = (props) => {
   useEffect(() => {
     headText();
   });
+
   const headText = () => {
     if (props.modalForm === 'login') {
       setHeadMessage('Wlecome back!');

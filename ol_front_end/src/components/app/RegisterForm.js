@@ -2,12 +2,15 @@ import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Form } from 'react-bootstrap';
 import { registerApi } from '../../lib/api';
+import { oktaAuthConfig } from '../../app.config';
+import { OktaAuth } from '@okta/okta-auth-js';
 import '../styles/forms.css';
 
 const RegisterForm = (props) => {
-  // const cookies = new Cookies();
-
   const [showError, setShowError] = useState(false);
+  const [sessionToken, setSessionToken] = useState();
+
+  const oktaAuth = new OktaAuth(oktaAuthConfig);
 
   const {
     register,
@@ -20,19 +23,28 @@ const RegisterForm = (props) => {
   password.current = watch('password', '');
 
   const onSubmit = (data) => {
-    console.log(data);
     registerApi(data)
       .then((response) => {
-        console.log(response);
-        // cookies.set('userToken', response.data.token);
-        // props.closeModal();
+        oktaAuth
+          .signInWithCredentials({
+            username: data.email,
+            password: data.password,
+          })
+          .then((res) => {
+            const sessionToken = res.sessionToken;
+            setSessionToken(sessionToken);
+            oktaAuth.handleLoginRedirect(sessionToken);
+            oktaAuth.signIn({ sessionToken });
+            window.location = '/';
+          })
+          .catch((err) => console.log('Found an error', err));
       })
       .catch((error) => {
-        console.log(data);
-        // const errorMessage = error.response.data.message;
-        // if (errorMessage.includes('duplicate')) {
-        //   setShowError(true);
-        // }
+        const errorMessage = error.response.data.msg;
+
+        if (errorMessage.includes('already exists')) {
+          setShowError(true);
+        }
       });
   };
 
@@ -115,8 +127,8 @@ const RegisterForm = (props) => {
           {...register('password', {
             required: 'You must specify a password',
             minLength: {
-              value: 6,
-              message: 'Password must have at least 6 characters',
+              value: 8,
+              message: 'Password must have at least 8 characters',
             },
           })}
           placeholder='password'

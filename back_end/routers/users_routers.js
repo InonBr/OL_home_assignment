@@ -45,6 +45,7 @@ router.post(
           },
         },
       };
+
       oktaClient
         .createUser(newUser)
         .then((user) => {
@@ -52,13 +53,10 @@ router.post(
           res.send(user);
         })
         .catch((err) => {
-          res.status(400);
-          res.send(err);
+          return res.status(400).json({ msg: err.message });
         });
     } catch (err) {
-      return res
-        .status(500)
-        .json({ err: 'Server error', message: err.message });
+      return res.status(500).json({ err: 'Server error', msg: err.message });
     }
   }
 );

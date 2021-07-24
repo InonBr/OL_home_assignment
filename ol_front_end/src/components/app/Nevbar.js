@@ -3,6 +3,7 @@ import { Navbar, Nav, Form, Button, Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { SecureRoute } from '@okta/okta-react';
 import { oktaSignInConfig } from '../../app.config';
+import { useOktaAuth } from '@okta/okta-react';
 
 import Profile from './Profile';
 import Home from './Home';
@@ -13,6 +14,14 @@ const Nevbar = () => {
   const [showlogout, setShowlogout] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [modalForm, setModalForm] = useState('');
+  const { oktaAuth, authState } = useOktaAuth();
+
+  if (!authState) return null;
+
+  const logout = async () => {
+    oktaAuth.tokenManager.clear();
+    window.location = '/';
+  };
 
   const closeModal = () => {
     setShowModal(false);
@@ -60,7 +69,13 @@ const Nevbar = () => {
 
   const logoutButton = () => {
     return (
-      <Button className='m-1' variant='outline-info'>
+      <Button
+        className='m-1'
+        variant='outline-info'
+        onClick={() => {
+          logout();
+        }}
+      >
         logout
       </Button>
     );
@@ -82,8 +97,8 @@ const Nevbar = () => {
             </Nav>
 
             <Nav>
-              {registerAndLoginButtons()}
-              <Form>{logoutButton()}</Form>
+              {!authState.isAuthenticated && registerAndLoginButtons()}
+              <Form>{authState.isAuthenticated && logoutButton()}</Form>
             </Nav>
           </Navbar.Collapse>
         </Container>

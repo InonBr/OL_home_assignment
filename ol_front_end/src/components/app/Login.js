@@ -8,6 +8,7 @@ const Login = ({ config }) => {
 
   const onSuccess = (tokens) => {
     oktaAuth.handleLoginRedirect(tokens);
+    window.location = '/';
   };
 
   const onError = (err) => {
