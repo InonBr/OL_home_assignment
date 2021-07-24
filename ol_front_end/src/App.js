@@ -12,7 +12,7 @@ function App() {
   const oktaAuth = new OktaAuth(oktaAuthConfig);
 
   const customAuthHandler = () => {
-    history.push('/');
+    window.location = '/';
   };
 
   const restoreOriginalUri = async (_oktaAuth, originalUri) => {

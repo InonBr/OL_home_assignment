@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Navbar, Nav, Form, Button, Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { SecureRoute } from '@okta/okta-react';
 
 import Profile from './Profile';
 import Home from './Home';
@@ -89,9 +90,9 @@ const Nevbar = () => {
 
       <Router>
         <Switch>
-          <Route path='/profile'>
+          <SecureRoute path='/profile'>
             <Profile />
-          </Route>
+          </SecureRoute>
 
           <Route path='/'>
             <Home />
