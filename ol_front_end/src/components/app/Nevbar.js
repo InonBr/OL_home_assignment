@@ -11,9 +11,7 @@ import Login from './Login';
 import ModalComponent from './ModalComponent';
 
 const Nevbar = () => {
-  const [showlogout, setShowlogout] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [modalForm, setModalForm] = useState('');
   const { oktaAuth, authState } = useOktaAuth();
 
   if (!authState) return null;
@@ -25,7 +23,6 @@ const Nevbar = () => {
 
   const closeModal = () => {
     setShowModal(false);
-    setModalForm('');
   };
 
   const loginClick = () => {
@@ -34,7 +31,6 @@ const Nevbar = () => {
 
   const registerClick = () => {
     setShowModal(true);
-    setModalForm('register');
   };
 
   const registerAndLoginButtons = () => {
@@ -69,15 +65,25 @@ const Nevbar = () => {
 
   const logoutButton = () => {
     return (
-      <Button
-        className='m-1'
-        variant='outline-info'
-        onClick={() => {
-          logout();
-        }}
-      >
-        logout
-      </Button>
+      <Form>
+        <Button
+          className='m-1'
+          variant='outline-info'
+          onClick={() => {
+            logout();
+          }}
+        >
+          logout
+        </Button>
+      </Form>
+    );
+  };
+
+  const profileButton = () => {
+    return (
+      <Nav.Link exact='true' className='link' href='/profile'>
+        Profile
+      </Nav.Link>
     );
   };
 
@@ -91,14 +97,12 @@ const Nevbar = () => {
               <Nav.Link exact='true' className='link' href='/'>
                 Home
               </Nav.Link>
-              <Nav.Link exact='true' className='link' href='/profile'>
-                Profile
-              </Nav.Link>
+              {authState.isAuthenticated && profileButton()}
             </Nav>
 
             <Nav>
               {!authState.isAuthenticated && registerAndLoginButtons()}
-              <Form>{authState.isAuthenticated && logoutButton()}</Form>
+              {authState.isAuthenticated && logoutButton()}
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -121,11 +125,7 @@ const Nevbar = () => {
         </Switch>
       </Router>
 
-      <ModalComponent
-        showModal={showModal}
-        modalForm={modalForm}
-        closeFunc={closeModal}
-      />
+      <ModalComponent showModal={showModal} closeFunc={closeModal} />
     </>
   );
 };

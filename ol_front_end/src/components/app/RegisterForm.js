@@ -8,7 +8,6 @@ import '../styles/forms.css';
 
 const RegisterForm = (props) => {
   const [showError, setShowError] = useState(false);
-  const [sessionToken, setSessionToken] = useState();
 
   const oktaAuth = new OktaAuth(oktaAuthConfig);
 
@@ -31,11 +30,7 @@ const RegisterForm = (props) => {
             password: data.password,
           })
           .then((res) => {
-            const sessionToken = res.sessionToken;
-            setSessionToken(sessionToken);
-            oktaAuth.handleLoginRedirect(sessionToken);
-            oktaAuth.signIn({ sessionToken });
-            window.location = '/';
+            window.location = '/login';
           })
           .catch((err) => console.log('Found an error', err));
       })
