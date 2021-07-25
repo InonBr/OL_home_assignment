@@ -1,8 +1,16 @@
-import { registerUrl } from './urls';
+import { registerUrl, userInfoUrl } from './urls';
 const axios = require('axios');
 
 const registerApi = (obj) => {
   return axios.post(registerUrl, obj);
 };
 
-export { registerApi };
+const getUserInfo = (obj) => {
+  return axios.get(userInfoUrl, {
+    headers: {
+      Authorization: `Bearer ${obj.accessToken}`,
+    },
+  });
+};
+
+export { registerApi, getUserInfo };
