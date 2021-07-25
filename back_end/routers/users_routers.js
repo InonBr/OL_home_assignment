@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const oktaClient = require('../lib/oktaClient');
 const { check, validationResult } = require('express-validator');
+const auth = require('../middleware/auth');
 
 router.post(
   '/register',
@@ -60,5 +61,13 @@ router.post(
     }
   }
 );
+
+router.get('/user_info', auth, (req, res) => {
+  oktaClient.getUser(req.jwt.claims.sub).then((user) => {
+    return res.status(200).json({
+      profile: user.profile,
+    });
+  });
+});
 
 module.exports = router;
