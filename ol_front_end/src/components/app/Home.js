@@ -1,9 +1,7 @@
 import { useOktaAuth } from '@okta/okta-react';
 
 const Home = () => {
-  const { oktaAuth, authState } = useOktaAuth();
-
-  console.log(authState.isAuthenticated);
+  const { authState } = useOktaAuth();
 
   const loginMessage = () => {
     return (
