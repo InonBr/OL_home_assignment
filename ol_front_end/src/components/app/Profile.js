@@ -25,7 +25,7 @@ const Profile = () => {
 
   return (
     <>
-      <h1>Profile</h1>
+      <h1 className='mt-5'>Profile</h1>
       {!userInfo && <h1 className='mt-5'>Loading...</h1>}
       {userInfo && showUserInfo(userInfo)}
     </>
